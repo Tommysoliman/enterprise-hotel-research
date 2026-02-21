@@ -15,6 +15,8 @@ load_dotenv(r"C:\Users\tommy\OneDrive\Desktop\Agentic ai\Key.env")
 # -----------------------
 # Streamlit Setup
 # -----------------------
+st.title("Hii Toots , I'm your AI Agent  🤖🧠")
+st.subheader("Mr Tommy says Hello ")
 st.set_page_config(page_title="Egypt Hotel Expansion Research Agent", layout="wide")
 st.title("🏨 Egypt Hotel Expansion News Agent (Enterprise Only)")
 
@@ -179,4 +181,5 @@ Question:
 
     if st.session_state.get("qa_answer"):
         st.subheader("📌 Answer")
+
         st.write(st.session_state["qa_answer"])
