@@ -113,18 +113,21 @@ if st.sidebar.button("🔍 Search Enterprise"):
                     {
                         "role": "user",
                         "content": f"""
-Use the enterprise_search_tool to find hotel expansion news in Egypt.
+Use the enterprise_search_tool to search Enterprise Egypt articles.
 
 Search query: {query}
 
 Extract:
-1. Hotel name & location
-2. Expansion details
-3. Opening date
-4. Developer/operator
-5. Source link
+1. Title
+2. Key entities involved (companies, people, projects, locations)
+3. Main announcement or development
+4. Dates mentioned
+5. Financial figures (if any)
+6. Strategic impact / sector relevance
+7. Source link
 
 Only use Enterprise website data.
+Return results in structured format.
 """
                     }
                 ]
@@ -183,3 +186,4 @@ Question:
         st.subheader("📌 Answer")
 
         st.write(st.session_state["qa_answer"])
+
