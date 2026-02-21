@@ -7,30 +7,74 @@ from langgraph.prebuilt import create_react_agent
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 
-# -----------------------
-# Load API Key
-# -----------------------
+# =====================================================
+# MUST BE FIRST STREAMLIT COMMAND
+# =====================================================
+st.set_page_config(
+    page_title="Enterprise Research Agent",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# =====================================================
+# DARK MODE STYLING
+# =====================================================
+st.markdown("""
+<style>
+    .stApp {
+        background-color: #0E1117;
+        color: #FAFAFA;
+    }
+
+    section[data-testid="stSidebar"] {
+        background-color: #161B22;
+    }
+
+    .stButton>button {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 8px;
+    }
+
+    .stTextInput>div>div>input {
+        background-color: #1E2228;
+        color: white;
+    }
+
+    .stTextArea textarea {
+        background-color: #1E2228;
+        color: white;
+    }
+
+    .stMarkdown, .stText {
+        color: #FAFAFA;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# LOAD API KEY
+# =====================================================
 load_dotenv(r"C:\Users\tommy\OneDrive\Desktop\Agentic ai\Key.env")
 
-# -----------------------
-# Streamlit Setup
-# -----------------------
-st.title("Hii Toots , I'm your AI Agent  🤖🧠")
+# =====================================================
+# TITLES
+# =====================================================
+st.title("Hii Toots , I'm your AI Agent 🤖🧠")
 st.subheader("Mr Tommy says Hello ")
-st.set_page_config(page_title="Enterprise Research Agent", layout="wide")
 st.title("Enterprise News Agent (Enterprise Only)")
 
-# -----------------------
+# =====================================================
 # LLM
-# -----------------------
+# =====================================================
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0
 )
 
-# -----------------------
-# Enterprise Tool
-# -----------------------
+# =====================================================
+# ENTERPRISE TOOL
+# =====================================================
 @tool
 def enterprise_search_tool(query: str) -> str:
     """Search up to 40 Enterprise Egypt articles matching the query."""
@@ -41,7 +85,7 @@ def enterprise_search_tool(query: str) -> str:
 
     page = 1
     MAX_ARTICLES = 40
-    MAX_PAGES = 20  # safety limit
+    MAX_PAGES = 20
 
     while len(articles) < MAX_ARTICLES and page <= MAX_PAGES:
 
@@ -93,13 +137,15 @@ def enterprise_search_tool(query: str) -> str:
 
     return "\n\n".join(articles)
 
-
+# =====================================================
+# AGENT SETUP
+# =====================================================
 tools = [enterprise_search_tool]
 agent = create_react_agent(llm, tools)
 
-# -----------------------
+# =====================================================
 # SEARCH SECTION
-# -----------------------
+# =====================================================
 query = st.sidebar.text_input(
     "Search Enterprise Website",
     value="hotel expansion Egypt 2025"
@@ -122,7 +168,7 @@ Extract:
 2. Key entities involved (companies, people, projects, locations)
 3. Main announcement or development
 4. Dates mentioned
-5. Financial figures (if any)
+4. Financial figures (if any)
 6. Strategic impact / sector relevance
 7. Source link
 
@@ -135,23 +181,22 @@ Return results in structured format.
 
             final_answer = result["messages"][-1].content
 
-            # Save to session state
             st.session_state["research_content"] = final_answer
             st.session_state["qa_answer"] = None
 
         except Exception as e:
             st.error(f"Error occurred: {e}")
 
-# -----------------------
-# ALWAYS DISPLAY RESEARCH IF EXISTS
-# -----------------------
+# =====================================================
+# DISPLAY RESEARCH
+# =====================================================
 if "research_content" in st.session_state:
     st.subheader("📰 Enterprise Research Results")
     st.write(st.session_state["research_content"])
 
-# -----------------------
+# =====================================================
 # Q&A SECTION
-# -----------------------
+# =====================================================
 st.markdown("---")
 st.header("💬 Ask Questions About the Research")
 
@@ -184,8 +229,4 @@ Question:
 
     if st.session_state.get("qa_answer"):
         st.subheader("📌 Answer")
-
         st.write(st.session_state["qa_answer"])
-
-
-
