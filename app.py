@@ -18,7 +18,7 @@ load_dotenv(r"C:\Users\tommy\OneDrive\Desktop\Agentic ai\Key.env")
 st.title("Hii Toots , I'm your AI Agent  🤖🧠")
 st.subheader("Mr Tommy says Hello ")
 st.set_page_config(page_title="Enterprise Research Agent", layout="wide")
-st.title("🏨 Egypt Hotel Expansion News Agent (Enterprise Only)")
+st.title("Enterprise News Agent (Enterprise Only)")
 
 # -----------------------
 # LLM
@@ -186,5 +186,6 @@ Question:
         st.subheader("📌 Answer")
 
         st.write(st.session_state["qa_answer"])
+
 
 
